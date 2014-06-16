@@ -1,0 +1,7 @@
+---
+
+- name: ssh - Configuration
+  template: src=sshd_config.j2 dest=/etc/ssh/sshd_config owner=root group=root
+  notify: restart ssh
+  tags: ssh
+

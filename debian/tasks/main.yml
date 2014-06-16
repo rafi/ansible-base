@@ -1,0 +1,11 @@
+---
+
+# Debian and Ubuntu based distros
+- include: debian.yml
+  tags: base
+- include: apt.yml
+  tags:
+    - base
+    - apt
+- include: base.yml
+  tags: base

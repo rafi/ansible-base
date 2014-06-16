@@ -1,0 +1,38 @@
+---
+
+- name: user - Create groups
+  group: name={{ item.name }}
+  with_items: user_groups
+  when: user_groups is not none
+  tags: user
+
+- name: user - Set password-less sudo groups
+  lineinfile: dest=/etc/sudoers
+      regexp="^\%{{ item.name }}\s+ALL=\(ALL\)\s+NOPASSWD{{':'}}\s*ALL"
+      line="%{{ item.name }} ALL=(ALL) NOPASSWD{{':'}} ALL"
+  with_items: user_groups
+  when: user_groups is not none and item.sudo_nopasswd is defined and item.sudo_nopasswd
+  tags: user
+
+- name: user - Create users
+  user: name={{ item.name }} groups={{ ','.join(item.groups) }}
+        shell={{ item.shell|default('/bin/bash') }}
+        generate_ssh_key={{ item.generate_ssh_key|default('no') }}
+  with_items: users
+  when: users is not none
+  tags: user
+
+- name: user - Add authorized keys for users
+  authorized_key: user={{ item.name }} 
+                  key="{{ lookup('file', '../../../'+item.authorized_key) }}"
+  with_items: users
+  when: users is not none and item.authorized_key is defined
+  tags: user
+
+- name: user - Fetch generated keys
+  fetch: src=/home/{{ item.name }}/.ssh/id_rsa.pub 
+         dest=public_keys/machines/{{ inventory_hostname }}/{{ item.name }}.pub
+         flat=yes
+  with_items: users
+  when: users is not none and item.generate_ssh_key is defined
+  tags: user

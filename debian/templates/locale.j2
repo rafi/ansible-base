@@ -1,0 +1,5 @@
+{% for default, locales in locales|groupby("default") %}
+{% if default %}
+LANG={{ locales|map(attribute="name")|first }}
+{% endif %}
+{% endfor %}

@@ -1,0 +1,20 @@
+---
+
+- name: Set the hostname
+  hostname: name={{ inventory_hostname }}
+
+- name: Update the hostname (/etc/hosts)
+  lineinfile: dest=/etc/hosts
+    regexp="^{{ansible_default_ipv4.address}}\s+{{ fqdn }}\s+{{ inventory_hostname }}"
+    line="{{ansible_default_ipv4.address}}  {{ fqdn }}  {{ inventory_hostname }}"
+    state=present
+
+- name: Set the locale
+  template: src=locale.j2 dest=/etc/default/locale owner=root group=root
+
+- name: Set the timezone
+  file: src=/usr/share/zoneinfo/{{ timezone }}
+        dest=/etc/localtime
+        force=yes
+        state=link
+  tags: timezone

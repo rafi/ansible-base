@@ -1,0 +1,7 @@
+---
+
+- name: apt - Update the apt cache
+  apt: update_cache=yes
+
+- name: apt - Upgrade the installed packages
+  apt: upgrade=yes

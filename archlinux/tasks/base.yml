@@ -1,0 +1,42 @@
+---
+
+- name: base - Ensure openssh
+  pacman: name=openssh
+  tags: ssh
+
+- name: base - Ensure ntp
+  pacman: name={{ item }}
+  with_items:
+    - ntp
+    - tzdata
+  tags: ntp
+
+- name: base - ntpd started and enabled
+  service: name=ntpd state=started enabled=yes
+  when: ntp_enable_daemon
+  tags: ntp
+
+- name: base - One-time update with ntpd
+  command: /usr/bin/ntpd -gq
+  when: not ntp_enable_daemon
+  tags: ntp
+
+- name: base - Ensure iptables
+  pacman: name=iptables
+  tags: iptables
+
+- name: base - Ensure cronie
+  pacman: name=cronie
+  tags: cron
+
+- name: base - Cronie started and enabled
+  service: name=cronie state=started enabled=yes
+  tags: cron
+
+- name: base - Ensure base tools
+  pacman: name={{ item }}
+  with_items:
+    - git
+    - rsync
+  tags: packages
+

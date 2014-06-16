@@ -1,0 +1,8 @@
+---
+
+- name: reload iptables
+  service: name=iptables state=restarted
+  notify: enable iptables
+
+- name: enable iptables
+  service: name=iptables state=started enabled=yes

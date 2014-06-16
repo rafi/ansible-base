@@ -1,0 +1,8 @@
+---
+
+- name: reload iptables
+  copy: src=firewall dest=/etc/network/if-pre-up.d/firewall
+        owner=root group=root mode=0754
+
+- name: enable iptables
+  command: /etc/network/if-pre-up.d/firewall

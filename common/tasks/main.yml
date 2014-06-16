@@ -1,0 +1,7 @@
+---
+
+- include: ssh.yml
+- include: iptables.yml
+- include: logrotate.yml
+- include: skel.yml
+- include: user.yml

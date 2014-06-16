@@ -1,0 +1,13 @@
+---
+
+- name: iptables - ensure iptables directory
+  file: path=/etc/iptables/ owner=root group=root state=directory
+  tags: iptables
+
+- name: iptables - configure iptables rules
+  template: src=iptables.rules.j2 dest=/etc/iptables/iptables.rules owner=root group=root
+  notify: 
+    - reload iptables
+    - enable iptables
+  tags: iptables
+

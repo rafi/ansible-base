@@ -1,0 +1,11 @@
+---
+
+# Arch Linux World Domination, Inc.
+- include: arch.yml
+  tags: base
+- include: pacman.yml
+  tags:
+    - base
+    - pacman
+- include: base.yml
+  tags: base

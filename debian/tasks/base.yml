@@ -1,0 +1,43 @@
+---
+
+- name: base - Ensure openssh
+  apt: pkg=openssh-server
+  tags: ssh
+
+- name: base - Ensure ntp
+  apt: name={{ item }}
+  with_items:
+    - tzdata
+    - ntp
+    - ntpdate
+  tags: ntp
+
+- name: base - ntpd started and enabled
+  service: name=ntp state=started enabled=yes
+  when: ntp_enable_daemon
+  tags: ntp
+
+- name: base - One-time update with ntpd
+  command: /usr/bin/ntpd -gq
+  when: not ntp_enable_daemon
+  tags: ntp
+
+- name: base - Ensure iptables
+  apt: pkg=iptables
+  tags: iptables
+
+- name: base - Ensure cron
+  apt: pkg=cron
+  tags: cron
+
+- name: base - cron started and enabled
+  service: name=cron state=started enabled=yes
+  tags: cron
+
+- name: base - Ensure base tools
+  apt: pkg={{ item }}
+  with_items:
+    - git
+    - rsync
+  tags: packages
+

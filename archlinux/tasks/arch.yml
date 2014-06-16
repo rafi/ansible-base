@@ -1,0 +1,35 @@
+---
+
+- name: set hostname
+  template: src=hostname.j2 dest=/etc/hostname owner=root group=root
+  notify: update hostname
+
+- name: set timezone
+  template: src=timezone.j2 dest=/etc/timezone owner=root group=root
+  notify: update timezone
+
+- name: set available locales
+  template: src=locale.gen.j2 dest=/etc/locale.gen owner=root group=root
+  notify: generate locales
+
+- name: set default locale
+  template: src=locale.j2 dest=/etc/locale.conf owner=root group=root
+
+- name: set vconsole keymap
+  lineinfile: dest=/etc/vconsole.conf
+      regexp="^KEYMAP=" line="KEYMAP={{ systemd_vconsole_keymap }}"
+
+- name: set vconsole font
+  lineinfile: dest=/etc/vconsole.conf
+      regexp="^FONT=" line="FONT={{ systemd_vconsole_font }}"
+
+- name: persist journal
+  file: path=/var/log/journal state=directory
+
+- name: configure journald
+  template: src=journald.conf.j2 dest=/etc/systemd/journald.conf owner=root group=root
+  notify: restart journald
+
+- name: configure logind
+  template: src=logind.conf.j2 dest=/etc/systemd/logind.conf owner=root group=root
+  notify: restart logind
