@@ -5,3 +5,4 @@
 
 - name: apt - Upgrade the installed packages
   apt: upgrade=yes
+  when: upgrade is not defined or upgrade

@@ -19,6 +19,7 @@ The machine's `hostname` will be set as your playbook's host name.
 ansible_python_interpreter: /usr/bin/python2
 
 # Base role
+upgrade: true
 timezone: UTC
 ntp_enable_daemon: true
 locales:
