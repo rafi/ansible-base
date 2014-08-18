@@ -2,7 +2,7 @@
 
 - name: skel - Get /etc/skel from github.com/rafi
   git: depth=1 dest=/tmp/etc-skel repo=git://github.com/rafi/etc-skel.git
-       update=no force=no
+       update=no force=no accept_hostkey=yes
   tags: skel
 
 - name: skel - Copy skel to /etc/skel
