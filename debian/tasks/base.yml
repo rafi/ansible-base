@@ -20,6 +20,7 @@
 - name: base - One-time update with ntpd
   command: /usr/bin/ntpd -gq
   when: not ntp_enable_daemon
+  ignore_errors: yes
   tags: ntp
 
 - name: base - Ensure iptables
