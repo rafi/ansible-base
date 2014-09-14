@@ -3,8 +3,5 @@
 - name: pacman - Enable pacman colors
   replace: dest=/etc/pacman.conf regexp='^#Color$' replace='Color'
 
-- name: pacman - Set pacman mirrors
-  copy: src=mirrorlist dest=/etc/pacman.d/mirrorlist owner=root group=root
-
 - name: pacman - Force pacman refresh
   pacman: update_cache=yes

@@ -24,7 +24,7 @@
 
 - name: user - Add authorized keys for users
   authorized_key: user={{ item.name }} 
-                  key="{{ lookup('file', '../../../'+item.authorized_key) }}"
+                  key="{{ lookup('file', '../../../../'+item.authorized_key) }}"
   with_items: users
   when: users is not none and item.authorized_key is defined
   tags: user

@@ -15,3 +15,5 @@
 - name: restart logind
   service: name=systemd-logind state=restarted
 
+- name: reload systemd daemon
+  command: /usr/bin/systemctl daemon-reload

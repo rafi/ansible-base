@@ -4,6 +4,12 @@
   template: src=hostname.j2 dest=/etc/hostname owner=root group=root
   notify: update hostname
 
+- name: Update the hostname (/etc/hosts)
+  lineinfile: dest=/etc/hosts
+    regexp="^{{ansible_default_ipv4.address}}\s+{{ fqdn }}\s+{{ inventory_hostname }}"
+    line="{{ansible_default_ipv4.address}}  {{ fqdn }}  {{ inventory_hostname }}"
+    state=present
+
 - name: set timezone
   template: src=timezone.j2 dest=/etc/timezone owner=root group=root
   notify: update timezone
@@ -16,7 +22,7 @@
   template: src=locale.j2 dest=/etc/locale.conf owner=root group=root
 
 - name: set vconsole keymap
-  lineinfile: dest=/etc/vconsole.conf
+  lineinfile: dest=/etc/vconsole.conf create=yes
       regexp="^KEYMAP=" line="KEYMAP={{ systemd_vconsole_keymap }}"
 
 - name: set vconsole font
@@ -33,3 +39,10 @@
 - name: configure logind
   template: src=logind.conf.j2 dest=/etc/systemd/logind.conf owner=root group=root
   notify: restart logind
+
+- name: Archlinux | SSHd socket port
+  template:
+    src=port.conf owner=root group=root
+    dest=/etc/systemd/system/sshd.socket.d/port.conf
+  notify: reload systemd daemon
+  tags: ssh

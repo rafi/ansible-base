@@ -26,13 +26,13 @@ compress
 # Ignore pacman saved files
 tabooext + .pacorig .pacnew .pacsave
 
-# Packages drop log rotation information into this directory
+# Arch packages drop log rotation information into this directory
 include /etc/logrotate.d
 
 /var/log/wtmp {
     monthly
     create 0664 root utmp
-	minsize 1M
+    minsize 1M
     rotate 1
 }
 

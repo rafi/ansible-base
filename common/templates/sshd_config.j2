@@ -130,9 +130,9 @@ AcceptEnv LANG LC_*
 
 # override default of no subsystems
 {% if ansible_os_family == 'Debian' %}
-Subsystem sftp /usr/lib/openssh/sftp-server
+Subsystem      sftp    /usr/lib/openssh/sftp-server
 {% else %}
-Subsystem	sftp /usr/lib/ssh/sftp-server
+Subsystem      sftp    /usr/lib/ssh/sftp-server
 {% endif %}
 
 # Example of overriding settings on a per-user basis

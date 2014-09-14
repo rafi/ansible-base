@@ -1,15 +1,9 @@
 ---
 
-# Instead of restarting, ensure socket
-- name: restart ssh
-  service: name=sshd.service state=stopped enabled=no
-  notify: start ssh socket
-
-# The service module would not start sshd.socket for some odd reason
-- name: start ssh socket
-  command: /usr/bin/systemctl start sshd.socket
-  notify: enable ssh socket
-
+# Stop regular sshd.service before enabling socket
 - name: enable ssh socket
-  service: name=sshd.socket enabled=yes
+  service: name=sshd.service state=stopped enabled=no
+  notify: restart ssh socket
 
+- name: restart ssh socket
+  service: name=sshd.socket state=restarted enabled=yes
