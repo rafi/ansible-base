@@ -76,4 +76,4 @@ base roles and iptables template.
 ### License
 MIT
 
-[uggedal's playbooks]: https://github.com/uggedal/playbooks
+[uggedal's playbooks]: http://git.uggedal.com/historic/playbooks/
